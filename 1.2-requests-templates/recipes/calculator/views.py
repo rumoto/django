@@ -28,3 +28,27 @@ DATA = {
 #     'ингредиент2': количество2,
 #   }
 # }
+def omlet(request):
+    context = {
+        'recipe': {
+            'яйца, шт': 2,
+            'молоко, л': 0.1,
+            'соль, ч.л.': 0.5,
+        }
+    }
+    return render(request, 'calculator/index.html', context)
+
+def recipe(request, name):
+    new_recipe = {}
+    persons = int(request.GET.get('servings', 1))
+    ingredients = DATA.get(name)
+    if ingredients != None:
+        for ingredient, amount in ingredients.items():
+            new_recipe[ingredient] = amount * persons
+    context = {
+        'recipe': new_recipe,
+        'persons': persons,
+        'name': name,
+    }
+    return render(request, 'calculator/index.html', context)
+
