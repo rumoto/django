@@ -9,5 +9,5 @@ class Phone(models.Model):
     price = models.FloatField(max_length=10)
     release_date = models.CharField(max_length=20)
     lte_exists = models.BooleanField()
-    slug = models.CharField(max_length=50)
+    slug = models.SlugField(unique=True)
 
