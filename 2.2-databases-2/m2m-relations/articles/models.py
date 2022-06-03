@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import UniqueConstraint
 
 
 class Article(models.Model):
@@ -21,7 +22,7 @@ class Article(models.Model):
 class Tag(models.Model):
 
     name = models.CharField(max_length=60, verbose_name='Название')
-    articles = models.ManyToManyField(Article, related_name='tags')
+    articles = models.ManyToManyField(Article, through='Scope', related_name='tags')
 
 
     class Meta:
@@ -36,9 +37,13 @@ class Scope(models.Model):
 
     article = models.ForeignKey(Article, on_delete=models.CASCADE, related_name='scopes', verbose_name='Тематики статьи')
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE, related_name='scopes', verbose_name='Раздел')
-    is_main = models.BooleanField(verbose_name='Основной')
+    is_main = models.BooleanField(default=False, verbose_name='Основной')
 
     class Meta:
         verbose_name = 'Тематика статьи'
         verbose_name_plural = 'Тематики статьи'
+        constraints = [
+            UniqueConstraint(fields=['article', 'tag'], name='unique_host_migration'),
+        ]
+        ordering = ['-is_main']
 
