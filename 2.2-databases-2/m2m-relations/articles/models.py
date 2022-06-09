@@ -45,5 +45,5 @@ class Scope(models.Model):
         constraints = [
             UniqueConstraint(fields=['article', 'tag'], name='unique_host_migration'),
         ]
-        ordering = ['-is_main']
+        ordering = ['-is_main', 'tag__name']
 
