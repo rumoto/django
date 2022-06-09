@@ -1,5 +1,4 @@
 from django.db import models
-#d;name;image;price;release_date;lte_exists;slug
 
 class Phone(models.Model):
     # TODO: Добавьте требуемые поля
